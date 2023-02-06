@@ -80,7 +80,7 @@ export default new Vuex.Store({
       const isOk = await fetch("https://www.become.co/api/rest/test.php").then(
         (res) => res.json()
       );
-      if (isOk) {
+      if (isOk.success) {
         commit("setOrders", data);
       }
     },

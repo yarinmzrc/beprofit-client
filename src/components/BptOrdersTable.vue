@@ -21,11 +21,7 @@
       :sortable="item.sortable"
       :key="item.order_ID"
       v-slot="props"
-      >{{
-        item.field === "created_at"
-          ? new Date(props.row.created_at).toLocaleDateString()
-          : props.row[item.field]
-      }}</b-table-column
+      >{{ rowText(props, item) }}</b-table-column
     >
 
     <b-table-column v-slot="props" field="edit" label="Edit">
@@ -64,6 +60,13 @@
 </template>
 
 <script lang="ts">
+import { IOrdersTableColumnData } from "@/constants/constants";
+import { IOrders } from "@/store";
+
+interface IProps {
+  row: IOrders;
+}
+
 export default {
   name: "BptOrdersTable",
   data() {
@@ -87,6 +90,11 @@ export default {
         (value, index, self) =>
           self.findIndex((v) => keys.every((k) => v[k] === value[k])) === index
       );
+    },
+    rowText(props: IProps, item: IOrdersTableColumnData) {
+      return item.field === "created_at"
+        ? new Date(props.row.created_at!).toLocaleDateString()
+        : props.row[item.field as keyof typeof props.row];
     },
   },
 };
