@@ -40,6 +40,13 @@ import { ordersTableColumnData } from "../constants/constants";
 import BptModal from "@/components/BptModal.vue";
 import BptOrdersForm from "@/components/BptOrdersForm.vue";
 import BptOrdersTable from "@/components/BptOrdersTable.vue";
+import { IOrders } from "@/store";
+
+interface IOrdersToChange {
+  name: string;
+  totalPrice: number | null;
+  status: string | null;
+}
 
 export default Vue.extend({
   name: "OrdersView",
@@ -57,7 +64,7 @@ export default Vue.extend({
         name: "",
         totalPrice: null,
         status: null,
-      },
+      } as IOrdersToChange,
     };
   },
   computed: {
@@ -69,15 +76,15 @@ export default Vue.extend({
     deleteOrder(id: string) {
       this.$store.commit("deleteOrder", { id });
     },
-    updateOrder(orderDataToChange: any) {
+    updateOrder(orderDataToChange: IOrdersToChange) {
       this.$store.commit("updateOrder", { orderData: orderDataToChange });
       this.isModalOpen = false;
     },
-    createOrder(orderDataToCreate: any) {
+    createOrder(orderDataToCreate: IOrdersToChange) {
       this.$store.commit("createOrder", { orderData: orderDataToCreate });
       this.isCreateOrderModalOpen = false;
     },
-    openModal(data: any) {
+    openModal(data: IOrders) {
       const newOrderData = {
         name: data.name,
         totalPrice: data.total_price,

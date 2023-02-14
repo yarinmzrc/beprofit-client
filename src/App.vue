@@ -29,7 +29,7 @@ export default Vue.extend({
     this.loading = true;
     try {
       await store.dispatch("getOrders");
-    } catch (err: any) {
+    } catch (err) {
       this.error = "Server is currently not available";
     }
     this.loading = false;
